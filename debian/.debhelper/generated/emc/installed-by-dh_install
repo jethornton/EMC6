@@ -1,0 +1,4 @@
+./emc/src/emc
+./emc/src/emc.ui
+./emc/src/libemc/commands.py
+./emc/src/libemc/connections.py
