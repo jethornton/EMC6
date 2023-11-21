@@ -3,10 +3,10 @@ Version: 0.0.1
 Architecture: amd64
 Maintainer: John Thornton <jt@gnipsel.com>
 Installed-Size: 23
-Depends: python3 (>= 3.6)
+Depends: python3 (>= 3.6), python3-pyqt6, pyqt6-dev-tools
 Section: utils
 Priority: optional
 Description: LinuxCNC GUI
- Just prints "Howdy", it's very useful.
+ PyQt6 Gui.
  Note the second and additional lines are
  indented with one space.

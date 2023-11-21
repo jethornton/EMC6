@@ -27,7 +27,7 @@ class main(QMainWindow):
 		#self.setGeometry(50, 50, 500, 300)
 		self.setWindowTitle("EMC GUI 6")
 		connections.connect(self)
-		self.emc = commands.emc_control(linuxcnc)
+		self.emc = commands.emc_control(self, linuxcnc)
 		self.status = linuxcnc.stat()
 		self.timer = QTimer()
 		self.timer.timeout.connect(self.update_status)
