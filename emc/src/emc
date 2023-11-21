@@ -4,6 +4,7 @@ import sys, os
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6 import uic
+from PyQt6.QtCore import QTimer
 
 # disable cache usage must be before any local imports
 sys.dont_write_bytecode = True
@@ -25,9 +26,18 @@ class main(QMainWindow):
 		uic.loadUi(os.path.join(libdir, 'emc.ui'), self)
 		#self.setGeometry(50, 50, 500, 300)
 		self.setWindowTitle("EMC GUI 6")
-		#connections.connect(self)
+		connections.connect(self)
 		self.emc = commands.emc_control(linuxcnc)
+		self.status = linuxcnc.stat()
+		self.timer = QTimer()
+		self.timer.timeout.connect(self.update_status)
+		self.timer.start(1000)
 		self.show()
+
+	def update_status(self):
+		self.status.poll()
+		print('updated')
+		self.estop_status_lb.setText(f'{self.status.estop}')
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
