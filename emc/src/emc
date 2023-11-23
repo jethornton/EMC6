@@ -17,26 +17,24 @@ from libemc import commands
 class main(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		base = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), ".."))
-		libdir = os.path.join(base, "lib", "libemc")
-		datadir = os.path.join(base, "share", "linuxcnc")
-		print(base)
-		print(libdir)
-		print(datadir)
-		uic.loadUi(os.path.join(libdir, 'emc.ui'), self)
+		cwd = os.getcwd()
+		lib_path = os.path.join(cwd, "libemc")
+		uic.loadUi(os.path.join(cwd, 'emc.ui'), self)
+		stylesheet = os.path.join(lib_path, 'emc.qss')
+		with open(stylesheet,'r') as fh:
+			self.setStyleSheet(fh.read())
 		#self.setGeometry(50, 50, 500, 300)
 		self.setWindowTitle("EMC GUI 6")
 		connections.connect(self)
-		self.emc = commands.emc_control(self, linuxcnc)
 		self.status = linuxcnc.stat()
 		self.timer = QTimer()
 		self.timer.timeout.connect(self.update_status)
-		self.timer.start(1000)
+		self.timer.start(100)
 		self.show()
 
 	def update_status(self):
 		self.status.poll()
-		print('updated')
+		#print('updated')
 		self.estop_status_lb.setText(f'{self.status.estop}')
 
 if __name__ == '__main__':
