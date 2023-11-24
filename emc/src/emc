@@ -17,16 +17,33 @@ from libemc import commands
 class main(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		cwd = os.getcwd()
-		lib_path = os.path.join(cwd, "libemc")
-		uic.loadUi(os.path.join(cwd, 'emc.ui'), self)
+		path = os.path.dirname(os.path.realpath(sys.argv[0]))
+		lib_path = os.path.join(path, 'libemc')
 		stylesheet = os.path.join(lib_path, 'emc.qss')
 		with open(stylesheet,'r') as fh:
 			self.setStyleSheet(fh.read())
-		#self.setGeometry(50, 50, 500, 300)
-		self.setWindowTitle("EMC GUI 6")
-		connections.connect(self)
 		self.status = linuxcnc.stat()
+		self.status.poll()
+		#print(self.status.ini_filename)
+		inifile = linuxcnc.ini(self.status.ini_filename)
+
+		gui = inifile.find('DISPLAY', 'GUI') or False
+		if gui:
+			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
+			if os.path.isfile(gui_path):
+				print(f'Using GUI: {gui_path}')
+			else:
+				gui_path = os.path.join(path, 'emc.ui')
+		print(gui_path)
+
+		uic.loadUi(gui_path, self)
+		#self.setGeometry(50, 50, 500, 300)
+		#self.setWindowTitle("EMC GUI 6")
+		connections.connect(self)
+		#machine_name = inifile.find("EMC", "MACHINE") or "unknown"
+		#print(f'{machine_name}')
+		#gui_path = inifile.find('DISPLAY', 'DISPLAY_PATH') or 'none'
+		#print(gui_path)
 		self.timer = QTimer()
 		self.timer.timeout.connect(self.update_status)
 		self.timer.start(100)
