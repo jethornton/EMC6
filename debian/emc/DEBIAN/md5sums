@@ -1,7 +1,0 @@
-4d68452838f8b087990efd62eadb9c38  usr/bin/emc
-62b0a7a80abdfe4dc1f70122cbd63ddb  usr/lib/libemc/emc.ui
-79eb5f561d445be343a70f1c8d45bbee  usr/lib/python3/dist-packages/libemc/commands.py
-3235093644aaf406743e8edfb9975f26  usr/lib/python3/dist-packages/libemc/connections.py
-de9a8d7d5dc8425a65bb9533bdd40728  usr/share/doc/emc/changelog.gz
-7639b315a5a9b6ba673cd111a5b1c925  usr/share/doc/emc/copyright
-0b052217806f80ccc4548fd6f7a0d79a  usr/share/man/man1/emc.1.gz
