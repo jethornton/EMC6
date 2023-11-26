@@ -13,6 +13,8 @@ import linuxcnc
 
 from libemc import connections
 from libemc import commands
+from libemc import status
+from libemc import startup
 
 class main(QMainWindow):
 	def __init__(self):
@@ -30,7 +32,6 @@ class main(QMainWindow):
 		# connect to linuxcnc
 		self.status = linuxcnc.stat()
 		self.status.poll()
-		print(self.status.ini_filename)
 		self.command = linuxcnc.command()
 		self.error = linuxcnc.error()
 		self.inifile = False
@@ -47,7 +48,6 @@ class main(QMainWindow):
 			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
 			if not os.path.isfile(gui_path):
 				gui_path = os.path.join(self.lib_path, 'emc.ui')
-			print(gui_path)
 		else:
 			gui_path = os.path.join(self.path, 'emc.ui')
 		uic.loadUi(gui_path, self)
@@ -63,6 +63,7 @@ class main(QMainWindow):
 			self.setStyleSheet(fh.read())
 
 		connections.connect(self)
+		startup.set_labels(self)
 
 		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()
@@ -72,8 +73,9 @@ class main(QMainWindow):
 
 	def update_status(self):
 		self.status.poll()
+		status.update(self)
 		#print('updated')
-		self.estop_status_lb.setText(f'{self.status.estop}')
+		#self.estop_status_lb.setText(f'{self.status.estop}')
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
