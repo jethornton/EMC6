@@ -17,36 +17,57 @@ from libemc import commands
 class main(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		path = os.path.dirname(os.path.realpath(sys.argv[0]))
-		lib_path = os.path.join(path, 'libemc')
-		stylesheet = os.path.join(lib_path, 'emc.qss')
-		with open(stylesheet,'r') as fh:
-			self.setStyleSheet(fh.read())
+
+		# get the path to the executable
+		self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
+
+		# set the library path
+		if self.path == '/usr/bin':
+			self.lib_path = '/usr/lib/libemc'
+		else:
+			self.lib_path = os.path.join(self.path, 'libemc')
+
+		# connect to linuxcnc
 		self.status = linuxcnc.stat()
 		self.status.poll()
-		#print(self.status.ini_filename)
-		inifile = linuxcnc.ini(self.status.ini_filename)
+		print(self.status.ini_filename)
+		self.command = linuxcnc.command()
+		self.error = linuxcnc.error()
+		self.inifile = False
+		for i in range(len(sys.argv)):
+			if sys.argv[i].endswith('.ini'):
+				self.inifile = linuxcnc.ini(sys.argv[i])
+				break
+		if not self.inifile:
+			self.inifile = linuxcnc.ini(self.status.ini_filename)
 
-		gui = inifile.find('DISPLAY', 'GUI') or False
+		# find and load the gui
+		gui = self.inifile.find('DISPLAY', 'GUI') or False
 		if gui:
 			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
-			if os.path.isfile(gui_path):
-				print(f'Using GUI: {gui_path}')
-			else:
-				gui_path = os.path.join(path, 'emc.ui')
-		print(gui_path)
-
+			if not os.path.isfile(gui_path):
+				gui_path = os.path.join(self.lib_path, 'emc.ui')
+			print(gui_path)
+		else:
+			gui_path = os.path.join(self.path, 'emc.ui')
 		uic.loadUi(gui_path, self)
-		#self.setGeometry(50, 50, 500, 300)
-		#self.setWindowTitle("EMC GUI 6")
+
+		# find and load the stylesheet
+		stylesheet = os.path.join(self.lib_path, 'emc.qss')
+		qss = self.inifile.find('DISPLAY', 'QSS') or False
+		if qss: # load local qss file make sure it exists !!!!!
+			if os.path.isfile(os.path.join(self.ini_path, qss)):
+				stylesheet = os.path.join(self.ini_path, qss)
+
+		with open(stylesheet,'r') as fh:
+			self.setStyleSheet(fh.read())
+
 		connections.connect(self)
-		#machine_name = inifile.find("EMC", "MACHINE") or "unknown"
-		#print(f'{machine_name}')
-		#gui_path = inifile.find('DISPLAY', 'DISPLAY_PATH') or 'none'
-		#print(gui_path)
+
+		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()
 		self.timer.timeout.connect(self.update_status)
-		self.timer.start(100)
+		self.timer.start(100) # milliseconds
 		self.show()
 
 	def update_status(self):

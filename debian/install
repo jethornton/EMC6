@@ -1,4 +1,6 @@
 emc/src/emc usr/bin
 emc/src/emc.ui usr/lib/libemc
+emc/src/libemc/emc.qss usr/lib/libemc
+
 emc/src/libemc/*.py usr/lib/python3/dist-packages/libemc
 
