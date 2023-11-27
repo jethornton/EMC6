@@ -22,6 +22,7 @@ class main(QMainWindow):
 
 		# get the path to the executable
 		self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
+		#print(self.path)
 
 		# set the library path
 		if self.path == '/usr/bin':
@@ -47,9 +48,10 @@ class main(QMainWindow):
 		if gui:
 			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
 			if not os.path.isfile(gui_path):
-				gui_path = os.path.join(self.lib_path, 'emc.ui')
+				gui_path = os.path.join(self.path, 'emc.ui')
 		else:
 			gui_path = os.path.join(self.path, 'emc.ui')
+			#print(gui_path)
 		uic.loadUi(gui_path, self)
 
 		# find and load the stylesheet
@@ -64,6 +66,7 @@ class main(QMainWindow):
 
 		connections.connect(self)
 		startup.set_labels(self)
+		startup.set_buttons(self)
 
 		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()
