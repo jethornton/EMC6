@@ -1,1 +1,3 @@
 debian/emc
+docs/build
+docs/Makefile
