@@ -2,6 +2,20 @@
 import linuxcnc
 command = linuxcnc.command()
 
+TRAJ_MODE_COORD = 2
+TRAJ_MODE_FREE = 1
+TRAJ_MODE_TELEOP = 3
+MODE_MDI = 3
+MODE_AUTO = 2
+MODE_MANUAL = 1
+TELEOP_DISABLE = 0
+TELEOP_ENABLE = 1
+
+def set_mode(parent, mode):
+	if parent.status.task_mode != mode:
+		parent.command.mode(mode)
+		parent.command.wait_complete()
+
 def estop_toggle(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP:
 		command.state(linuxcnc.STATE_ESTOP_RESET)
@@ -68,12 +82,26 @@ def stop(parent):
 def home(parent):
 	joint = int(parent.sender().objectName()[-1])
 	if parent.status.homed[joint] == 0:
+		if parent.status.task_mode != linuxcnc.MODE_MANUAL:
+			parent.command.mode(MODE_MANUAL)
+		#if parent.status.motion_mode != linuxcnc.TRAJ_MODE_FREE:
+		#	parent.command.traj_mode(linuxcnc.TRAJ_MODE_FREE)
 		parent.command.home(joint)
 		parent.sender().setStyleSheet('background-color: rgba(0, 255, 0, 25%);')
+		getattr(parent, f'unhome_pb_{joint}').setEnabled(True)
 
 	# homed (returns tuple of integers) - currently homed joints, 0 = not homed, 1 = homed.
 	# home(int) home a given joint.
 
+def unhome(parent):
+	joint = int(parent.sender().objectName()[-1])
+	if parent.status.homed[joint] == 1:
+		set_mode(parent, MODE_MANUAL)
+		parent.command.teleop_enable(TELEOP_DISABLE)
+		parent.command.wait_complete()
+		parent.command.unhome(joint)
+		getattr(parent, f'home_pb_{joint}').setStyleSheet('background-color: ;')
+		getattr(parent, f'unhome_pb_{joint}').setEnabled(False)
 
 
 

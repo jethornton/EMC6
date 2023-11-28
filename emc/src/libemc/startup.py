@@ -28,3 +28,13 @@ def set_buttons(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP_RESET:
 		commands.estop_toggle(parent)
 
+
+def print_constants(parent):
+	print(f'MODE_MANUAL = {parent.emc.MODE_MANUAL}')
+	print(f'TRAJ_MODE_COORD = {parent.emc.TRAJ_MODE_COORD}')
+	print(f'TRAJ_MODE_FREE = {parent.emc.TRAJ_MODE_FREE}')
+	print(f'TRAJ_MODE_TELEOP = {parent.emc.TRAJ_MODE_TELEOP}')
+	print(f'MODE_MDI = {parent.emc.MODE_MDI}')
+	print(f'MODE_AUTO = {parent.emc.MODE_AUTO}')
+	print(f'MODE_MANUAL = {parent.emc.MODE_MANUAL}')
+

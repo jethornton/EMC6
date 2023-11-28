@@ -31,6 +31,7 @@ class main(QMainWindow):
 			self.lib_path = os.path.join(self.path, 'libemc')
 
 		# connect to linuxcnc
+		self.emc = linuxcnc
 		self.status = linuxcnc.stat()
 		self.status.poll()
 		self.command = linuxcnc.command()
@@ -67,6 +68,7 @@ class main(QMainWindow):
 		connections.connect(self)
 		startup.set_labels(self)
 		startup.set_buttons(self)
+		#startup.print_constants(self)
 
 		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()

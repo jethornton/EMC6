@@ -14,8 +14,8 @@
    <widget class="QLabel" name="estop_status_lb">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>180</y>
+      <x>50</x>
+      <y>190</y>
       <width>66</width>
       <height>19</height>
      </rect>
@@ -110,7 +110,7 @@
      <item row="0" column="6">
       <widget class="QPushButton" name="stop_pb">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Stop</string>
@@ -138,7 +138,7 @@
       <x>30</x>
       <y>90</y>
       <width>272</width>
-      <height>47</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -148,6 +148,16 @@
      <enum>QFrame::Raised</enum>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="2">
+      <widget class="QPushButton" name="home_pb_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Home Z</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QPushButton" name="home_pb_0">
        <property name="enabled">
@@ -168,13 +178,33 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="home_pb_2">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="unhome_pb_0">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Home Z</string>
+        <string>UnHome X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="unhome_pb_1">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>UnHome Y</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="unhome_pb_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>UnHome Z</string>
        </property>
       </widget>
      </item>
@@ -190,7 +220,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>No File Loaded</string>
     </property>
    </widget>
   </widget>

@@ -17,6 +17,9 @@ def connect(parent):
 	'home_pb_0': 'home',
 	'home_pb_1': 'home',
 	'home_pb_2': 'home',
+	'unhome_pb_0': 'unhome',
+	'unhome_pb_1': 'unhome',
+	'unhome_pb_2': 'unhome',
 	}
 	pushbuttons = []
 	children = parent.findChildren(QPushButton)
