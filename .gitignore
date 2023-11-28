@@ -1,3 +1,5 @@
-debian/emc
+debian/emc*
+debian/.debhelper
+debian/debhelper*
 docs/build
 docs/Makefile
