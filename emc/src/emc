@@ -69,6 +69,7 @@ class main(QMainWindow):
 		connections.connect(self)
 		startup.set_labels(self)
 		startup.set_buttons(self)
+		startup.load_combos(self)
 		#startup.print_constants(self)
 
 		# setup and start the status update timer every 0.1 second

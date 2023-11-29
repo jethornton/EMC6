@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QLabel, QComboBox
 
 import linuxcnc
 
@@ -23,6 +23,25 @@ def set_labels(parent):
 	#print(linuxcnc.MODE_AUTO)
 	#print(linuxcnc.MODE_MANUAL)
 
+def load_combos(parent):
+	combo_list = ['jog_modes_cb', 'jog_increments_cb']
+	children = parent.findChildren(QComboBox)
+	found_combo_list = []
+	for child in children:
+		found_combo_list.append(child.objectName())
+	if 'jog_modes_cb' in found_combo_list:
+		parent.jog_modes_cb.addItem('Incremental', 'incremental')
+		parent.jog_modes_cb.addItem('Continuous', 'continuous')
+
+	if 'jog_increments_cb' in found_combo_list:
+		increments = parent.inifile.find('DISPLAY', 'INCREMENTS') or False
+		if increments:
+			for item in increments.split():
+				data = ''
+				for char in item:
+					if char.isdigit() or char == '.':
+						data += char
+				parent.jog_increments_cb.addItem(item, float(data))
 
 def set_buttons(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP_RESET:
@@ -37,4 +56,7 @@ def print_constants(parent):
 	print(f'MODE_MDI = {parent.emc.MODE_MDI}')
 	print(f'MODE_AUTO = {parent.emc.MODE_AUTO}')
 	print(f'MODE_MANUAL = {parent.emc.MODE_MANUAL}')
+	print(f'JOG_STOP = {parent.emc.JOG_STOP}')
+	print(f'JOG_CONTINUOUS = {parent.emc.JOG_CONTINUOUS}')
+	print(f'JOG_INCREMENT = {parent.emc.JOG_INCREMENT}')
 
