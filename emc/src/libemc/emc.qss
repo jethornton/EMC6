@@ -30,3 +30,7 @@ QPushButton:pressed
     border-width: 2px;
 
 }
+
+QPushButton#power_pb {
+background-color: rgba(255, 0, 0, 25%);
+}

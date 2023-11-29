@@ -48,9 +48,8 @@ def power_toggle(parent):
 		if parent.status.file:
 			parent.run_pb.setEnabled(True)
 			parent.step_pb.setEnabled(True)
-		parent.home_pb_0.setEnabled(True)
-		parent.home_pb_1.setEnabled(True)
-		parent.home_pb_2.setEnabled(True)
+		for i in range(parent.joints):
+			getattr(parent, f'home_pb_{i}').setEnabled(True)
 	else:
 		command.state(linuxcnc.STATE_OFF)
 		parent.power_pb.setStyleSheet('background-color: ;')
@@ -60,6 +59,8 @@ def run(parent):
 	if parent.status.task_state == linuxcnc.STATE_ON:
 		if parent.status.task_mode != linuxcnc.MODE_AUTO:
 			parent.command.mode(linuxcnc.MODE_AUTO)
+		parent.pause_pb.setEnabled(True)
+		print('run')
 		parent.command.auto(linuxcnc.AUTO_RUN, 0)
 
 def step(parent):
@@ -70,10 +71,14 @@ def step(parent):
 
 def pause(parent):
 	if parent.status.state == linuxcnc.RCS_EXEC: # program is running
+		parent.resume_pb.setEnabled(True)
+		parent.pause_pb.setEnabled(False)
 		parent.command.auto(linuxcnc.AUTO_PAUSE)
 
 def resume(parent):
 	if parent.status.paused:
+		parent.resume_pb.setEnabled(False)
+		parent.pause_pb.setEnabled(True)
 		parent.command.auto(linuxcnc.AUTO_RESUME)
 
 def stop(parent):
@@ -87,10 +92,14 @@ def home(parent):
 		#if parent.status.motion_mode != linuxcnc.TRAJ_MODE_FREE:
 		#	parent.command.traj_mode(linuxcnc.TRAJ_MODE_FREE)
 		parent.command.home(joint)
+		parent.command.wait_complete()
 		parent.sender().setStyleSheet('background-color: rgba(0, 255, 0, 25%);')
 		getattr(parent, f'unhome_pb_{joint}').setEnabled(True)
+		parent.unhome_all_pb.setEnabled(True)
 
 	# homed (returns tuple of integers) - currently homed joints, 0 = not homed, 1 = homed.
+	parent.status.poll()
+	#print(f'Homed: {parent.status.homed}')
 	# home(int) home a given joint.
 
 def unhome(parent):
@@ -103,7 +112,15 @@ def unhome(parent):
 		getattr(parent, f'home_pb_{joint}').setStyleSheet('background-color: ;')
 		getattr(parent, f'unhome_pb_{joint}').setEnabled(False)
 
-
+def unhome_all(parent):
+		set_mode(parent, MODE_MANUAL)
+		parent.command.teleop_enable(TELEOP_DISABLE)
+		parent.command.wait_complete()
+		parent.command.unhome(-1)
+		for i in range(parent.joints):
+			getattr(parent, f'home_pb_{i}').setStyleSheet('background-color: ;')
+			getattr(parent, f'unhome_pb_{i}').setEnabled(False)
+		parent.unhome_all_pb.setEnabled(False)
 
 
 
