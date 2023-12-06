@@ -1,12 +1,14 @@
 from functools import partial
 
-from PyQt6.QtWidgets import QPushButton
+from PyQt6.QtWidgets import QPushButton, QPlainTextEdit
 from PyQt6.QtGui import QAction
 
 from libemc import commands
 from libemc import menus
+from libemc import editor
 
 def connect(parent):
+
 	controls = {'estop_pb': 'estop_toggle',
 	'power_pb': 'power_toggle',
 	'run_pb': 'run',
@@ -46,7 +48,7 @@ def connect(parent):
 			getattr(parent, pb).released.connect(partial(getattr(commands, jog_buttons[pb]), parent))
 
 	# Menu Items
-	menu_actions = {'actionOpen': 'file_open'}
+	menu_actions = {'actionOpen': 'file_open', 'actionReload': 'file_reload'}
 	action_list = []
 	for action in parent.findChildren(QAction):
 		if action.objectName():
@@ -60,5 +62,11 @@ def connect(parent):
 
 	# combo boxes
 	combo_dict = {'jog_mode_cb': 'load_jog_modes'}
+
+
+	# plain text edits
+	# ptes = {'gcode_pte': 'gcode_viewer'}
+	#if parent.findChild(QPlainTextEdit, 'gcode_pte'):
+	#./	parent.gcode_pte.cursorPositionChanged.connect(partial(editor.highlight_line, parent))
 
 

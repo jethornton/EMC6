@@ -1,11 +1,15 @@
-from PyQt6.QtWidgets import QLabel, QComboBox
+from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit
+from PyQt6.QtGui import QTextCursor
 
 import linuxcnc
 
 from libemc import commands
+from libemc import editor
 
 def set_labels(parent):
-	label_list = ['status_lb', 'file_lb',]
+	label_list = ['status_lb', 'file_lb',
+	'dro_lb_x', 'dro_lb_y', 'dro_lb_z',
+	'motion_line_lb']
 	children = parent.findChildren(QLabel)
 	found_label_list = []
 	for child in children:
@@ -47,6 +51,21 @@ def set_buttons(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP_RESET:
 		commands.estop_toggle(parent)
 
+def get_pte(parent):
+	if parent.findChild(QPlainTextEdit, 'gcode_pte'):
+		parent.gcode_pte_exists = True
+		parent.last_line = parent.status.motion_line
+		parent.gcode_pte.setCenterOnScroll(True)
+		parent.gcode_pte.ensureCursorVisible()
+		if parent.status.file:
+			with open(parent.status.file) as f:
+				while line := f.readline():
+					parent.gcode_pte.appendPlainText(line.strip())
+			cursor = parent.gcode_pte.textCursor()
+			cursor.movePosition(QTextCursor.MoveOperation.Start)
+			parent.gcode_pte.setTextCursor(cursor)
+	else:
+		parent.gcode_pte_exists = False
 
 def print_constants(parent):
 	print(f'MODE_MANUAL = {parent.emc.MODE_MANUAL}')

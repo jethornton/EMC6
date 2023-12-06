@@ -15,10 +15,21 @@ def file_open(parent):
 	gcode_file = fileName[0]
 	if gcode_file:
 		parent.command.program_open(gcode_file)
+		text = open(gcode_file).read()
+		parent.gcode_pte.setPlainText(text)
 
 	base = os.path.basename(gcode_file)
 	if parent.file_lb_exists:
 		parent.file_lb.setText(f'G code: {base}')
+		parent.file_lb.setCenterOnScroll(True)
+
+def file_reload(parent):
+	gcode_file = parent.status.file 
+	print(gcode_file)
+	# Force a sync of the interpreter, which writes out the var file.
+	parent.command.task_plan_synch()
+	parent.command.wait_complete()
+	parent.command.program_open(gcode_file)
 
 	'''
 	options = QFileDialog.Options()
