@@ -23,7 +23,6 @@ def file_open(parent):
 	base = os.path.basename(gcode_file)
 	if parent.file_lb_exists:
 		parent.file_lb.setText(f'G code: {base}')
-		parent.file_lb.setCenterOnScroll(True)
 
 def file_reload(parent):
 	gcode_file = parent.status.file 
