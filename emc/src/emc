@@ -4,7 +4,7 @@ import sys, os
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6 import uic
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import Qt, QTimer, QEvent
 
 # disable cache usage must be before any local imports
 sys.dont_write_bytecode = True
@@ -15,8 +15,9 @@ from libemc import connections
 from libemc import commands
 from libemc import status
 from libemc import startup
+from libemc import editor
 
-class main(QMainWindow):
+class emc_gui(QMainWindow):
 	def __init__(self):
 		super().__init__()
 
@@ -80,7 +81,13 @@ class main(QMainWindow):
 		self.status.poll()
 		status.update(self)
 
+	def eventFilter(self, obj, event):
+		if obj is self.gcode_pte.viewport() and event.type() == QEvent.Type.MouseButtonRelease:
+			if event.button() == Qt.MouseButton.LeftButton:
+				editor.show_line(self)
+		return super(emc_gui, self).eventFilter(obj, event)
+
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
-	gui = main()
+	gui = emc_gui()
 	sys.exit(app.exec())

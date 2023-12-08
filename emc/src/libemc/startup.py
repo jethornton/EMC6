@@ -1,3 +1,5 @@
+from functools import partial
+
 from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit
 from PyQt6.QtGui import QTextCursor
 
@@ -9,7 +11,7 @@ from libemc import editor
 def set_labels(parent):
 	label_list = ['status_lb', 'file_lb',
 	'dro_lb_x', 'dro_lb_y', 'dro_lb_z',
-	'motion_line_lb']
+	'motion_line_lb', 'start_line_lb']
 	children = parent.findChildren(QLabel)
 	found_label_list = []
 	for child in children:
@@ -20,12 +22,6 @@ def set_labels(parent):
 			setattr(parent, f'{label}_exists', True)
 		else:
 			setattr(parent, f'{label}_exists', False)
-
-	#print(parent.status_lb_exists)
-	#print(parent.status_lb.text())
-	#print(linuxcnc.MODE_MDI)
-	#print(linuxcnc.MODE_AUTO)
-	#print(linuxcnc.MODE_MANUAL)
 
 def load_combos(parent):
 	combo_list = ['jog_modes_cb', 'jog_increments_cb']
@@ -57,6 +53,7 @@ def get_pte(parent):
 		parent.last_line = parent.status.motion_line
 		parent.gcode_pte.setCenterOnScroll(True)
 		parent.gcode_pte.ensureCursorVisible()
+		parent.gcode_pte.viewport().installEventFilter(parent)
 		if parent.status.file:
 			with open(parent.status.file) as f:
 				while line := f.readline():

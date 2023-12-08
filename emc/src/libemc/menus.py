@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5 import Qt
 app = Qt.QApplication([])
 
+from libemc import editor
+
 def file_open(parent):
 	if os.path.isdir(os.path.expanduser('~/linuxcnc/nc_files')):
 		gcode_dir = os.path.expanduser('~/linuxcnc/nc_files')
@@ -25,16 +27,12 @@ def file_open(parent):
 
 def file_reload(parent):
 	gcode_file = parent.status.file 
-	print(gcode_file)
 	# Force a sync of the interpreter, which writes out the var file.
 	parent.command.task_plan_synch()
 	parent.command.wait_complete()
 	parent.command.program_open(gcode_file)
+	if parent.start_line_lb_exists:
+		parent.start_line_lb.setText('')
+	editor.clear_highlight(parent)
 
-	'''
-	options = QFileDialog.Options()
-	options |= QFileDialog.DontUseNativeDialog
-	fileName, _ = QFileDialog.getOpenFileName(None,"Open File", "","All Files (*);;G code Files (*.ngc)", options=options)
-	if fileName:
-		print(fileName)
-	'''
+

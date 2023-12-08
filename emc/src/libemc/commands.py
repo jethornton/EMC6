@@ -69,8 +69,12 @@ def run(parent):
 		if parent.status.task_mode != linuxcnc.MODE_AUTO:
 			parent.command.mode(linuxcnc.MODE_AUTO)
 		parent.pause_pb.setEnabled(True)
-		print('run')
-		parent.command.auto(linuxcnc.AUTO_RUN, 0)
+		if parent.start_line_lb_exists:
+			if parent.start_line_lb.text():
+				n = int(parent.start_line_lb.text())
+			else:
+				n = 0
+		parent.command.auto(linuxcnc.AUTO_RUN, n)
 
 def step(parent):
 	if parent.status.task_state == linuxcnc.STATE_ON:
