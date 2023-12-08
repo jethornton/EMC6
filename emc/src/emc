@@ -49,9 +49,9 @@ class emc_gui(QMainWindow):
 		if gui:
 			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
 			if not os.path.isfile(gui_path):
-				gui_path = os.path.join(self.path, 'emc.ui')
+				gui_path = os.path.join(self.lib_path, 'emc.ui')
 		else:
-			gui_path = os.path.join(self.path, 'emc.ui')
+			gui_path = os.path.join(self.lib_path, 'emc.ui')
 		uic.loadUi(gui_path, self)
 
 		# find and load the stylesheet
