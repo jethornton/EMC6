@@ -51,7 +51,7 @@ class emc_gui(QMainWindow):
 			if not os.path.isfile(gui_path):
 				gui_path = os.path.join(self.lib_path, 'emc.ui')
 		else:
-			gui_path = os.path.join(self.lib_path, 'emc.ui')
+			gui_path = os.path.join(self.path, 'emc.ui')
 		uic.loadUi(gui_path, self)
 
 		# find and load the stylesheet
@@ -69,6 +69,7 @@ class emc_gui(QMainWindow):
 		startup.set_labels(self)
 		startup.set_buttons(self)
 		startup.load_combos(self)
+		startup.get_list_widgets(self)
 		startup.get_pte(self)
 
 		# setup and start the status update timer every 0.1 second

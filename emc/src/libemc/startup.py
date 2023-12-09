@@ -1,6 +1,6 @@
 from functools import partial
 
-from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit
+from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit, QListWidget
 from PyQt6.QtGui import QTextCursor
 
 import linuxcnc
@@ -46,6 +46,12 @@ def load_combos(parent):
 def set_buttons(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP_RESET:
 		commands.estop_toggle(parent)
+
+def get_list_widgets(parent):
+	if parent.findChild(QListWidget, 'mdi_history_lw').objectName():
+		parent.mdi_history_lw_exists = True
+	else:
+		parent.mdi_history_lw_exists = False
 
 def get_pte(parent):
 	if parent.findChild(QPlainTextEdit, 'gcode_pte'):

@@ -1,11 +1,12 @@
 from functools import partial
 
-from PyQt6.QtWidgets import QPushButton, QPlainTextEdit
+from PyQt6.QtWidgets import QPushButton, QPlainTextEdit, QListWidget
 from PyQt6.QtGui import QAction
 
 from libemc import commands
 from libemc import menus
 from libemc import editor
+from libemc import utilities
 
 def connect(parent):
 
@@ -23,6 +24,7 @@ def connect(parent):
 	'unhome_pb_0': 'unhome',
 	'unhome_pb_1': 'unhome',
 	'unhome_pb_2': 'unhome',
+	'run_mdi_pb': 'run_mdi',
 	}
 	pushbuttons = []
 	children = parent.findChildren(QPushButton)
@@ -58,7 +60,16 @@ def connect(parent):
 		if action in menu_actions:
 			getattr(parent, action).triggered.connect(partial(getattr(menus, menu_actions[action]), parent))
 
-	#print(actions)
+	list_widgets = {'mdi_history_lw': 'add_mdi'}
+	list_widgets_list = []
+	for list_widget in parent.findChildren(QListWidget):
+		if list_widget.objectName():
+			list_widgets_list.append(list_widget.objectName())
+
+	for item in list_widgets_list:
+		if item in list_widgets:
+			getattr(parent, item).itemSelectionChanged.connect(partial(getattr(utilities, list_widgets[item]), parent))
+
 
 	# combo boxes
 	combo_dict = {'jog_mode_cb': 'load_jog_modes'}

@@ -59,10 +59,12 @@ def power_toggle(parent):
 			parent.step_pb.setEnabled(True)
 		for i in range(parent.joints):
 			getattr(parent, f'home_pb_{i}').setEnabled(True)
+		parent.run_mdi_pb.setEnabled(True)
 	else:
 		parent.command.state(linuxcnc.STATE_OFF)
 		parent.power_pb.setStyleSheet('background-color: ;')
 		parent.power_pb.setText('Power Off')
+		parent.run_mdi_pb.setEnabled(False)
 
 def run(parent):
 	if parent.status.task_state == linuxcnc.STATE_ON:
@@ -161,7 +163,6 @@ def get_jog_mode(parent):
 		  set_motion_teleop(parent, teleop_mode)
 	return jjogmode
 
-
 def jog(parent):
 	jog_command = parent.sender().objectName().split('_')
 	joint = int(jog_command[-1])
@@ -179,43 +180,19 @@ def jog(parent):
 	else:
 		parent.command.jog(JOG_STOP, jjogmode, joint)
 
-'''
-            jjogmode = get_jog_mode()
-            for idx in cjogindices:
-                 c.jog(linuxcnc.JOG_STOP, jjogmode,idx)
-
-
- jog(command-constant, bool, int[, float[, float]])
-
-    Syntax
-
-        jog(command, jjogmode, joint_num_or_axis_index, velocity[, distance])
-        jog(linuxcnc.JOG_STOP, jjogmode, joint_num_or_axis_index)
-        jog(linuxcnc.JOG_CONTINUOUS, jjogmode, joint_num_or_axis_index, velocity)
-        jog(linuxcnc.JOG_INCREMENT, jjogmode, joint_num_or_axis_index, velocity, distance)
-    Command Constants
-
-        linuxcnc.JOG_STOP
-        linuxcnc.JOG_CONTINUOUS
-        linuxcnc.JOG_INCREMENT
-    jjogmode
-
-        True
-
-            request individual joint jog (requires teleop_enable(0))
-        False
-
-            request axis Cartesian coordinate jog (requires teleop_enable(1))
-
-    joint_num_or_axis_index
-
-        For joint jog (jjogmode=1)
-
-            joint_number
-        For axis Cartesian coordinate jog (jjogmode=0)
-
-            zero-based index of the axis coordinate with respect to the known coordinate letters XYZABCUVW (x=>0,y=>1,z=>2,a=>3,b=>4,c=>5,u=>6,v=>7,w=>8)
-'''
-
+def run_mdi(parent):
+	mdi_command = parent.mdi_command_le.text()
+	if mdi_command:
+		if parent.status.task_state == linuxcnc.STATE_ON:
+			if parent.status.task_mode != linuxcnc.MODE_MDI:
+				parent.command.mode(linuxcnc.MODE_MDI)
+			parent.pause_pb.setEnabled(True)
+			parent.command.mdi(mdi_command)
+			# add mdi to list
+			if parent.mdi_history_lw_exists:
+				parent.mdi_history_lw.addItem(mdi_command)
+			parent.mdi_command_le.setText('')
+	else:
+		print('no mdi')
 
 
