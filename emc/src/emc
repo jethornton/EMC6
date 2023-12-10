@@ -20,6 +20,24 @@ from libemc import editor
 class emc_gui(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		'''
+		if os.path.split(sys.argv[0])[0] == '/usr/bin':
+			self.lib_path = '/usr/lib/libmesact'
+			self.docs_path = '/usr/share/doc/mesact'
+			self.installed = True
+			uic.loadUi(os.path.join(self.lib_path, 'mesact.ui'), self)
+		else:
+			srcPath = os.path.split(os.path.realpath(sys.argv[0]))[0]
+			self.lib_path = os.path.join(srcPath, 'libmesact')
+			self.docs_path = srcPath
+			self.installed = False
+			uic.loadUi(os.path.join(srcPath, 'mesact.ui'), self)
+		stylesheet = os.path.join(self.lib_path, 'mesact.qss')
+		with open(stylesheet,'r') as fh:
+			self.setStyleSheet(fh.read())
+		'''
+		print(os.path.split(sys.argv[0])[0])
+		print(os.path.dirname(os.path.realpath(sys.argv[0])))
 
 		# get the path to the executable
 		self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
@@ -27,8 +45,15 @@ class emc_gui(QMainWindow):
 		# set the library path
 		if self.path == '/usr/bin':
 			self.lib_path = '/usr/lib/libemc'
+			self.gui_path = '/usr/lib/libemc'
 		else:
 			self.lib_path = os.path.join(self.path, 'libemc')
+			self.gui_path = self.path
+
+		print(f'Program Path: {self.path}')
+		print(f'Library Path: {self.lib_path}')
+		print(f'GUI Path: {self.gui_path}')
+
 
 		# connect to linuxcnc
 		self.emc = linuxcnc
@@ -49,9 +74,10 @@ class emc_gui(QMainWindow):
 		if gui:
 			gui_path = os.path.join(os.path.dirname(self.status.ini_filename), gui)
 			if not os.path.isfile(gui_path):
-				gui_path = os.path.join(self.lib_path, 'emc.ui')
+				gui_path = os.path.join(self.gui_path, 'emc.ui')
 		else:
-			gui_path = os.path.join(self.path, 'emc.ui')
+			gui_path = os.path.join(self.gui_path, 'emc.ui')
+		
 		uic.loadUi(gui_path, self)
 
 		# find and load the stylesheet
