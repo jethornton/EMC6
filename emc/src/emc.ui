@@ -400,7 +400,7 @@
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Jogging</string>
+      <string>Manual</string>
      </attribute>
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
@@ -428,6 +428,16 @@
        <item row="0" column="0">
         <widget class="QComboBox" name="jog_modes_cb"/>
        </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="jog_minus_pb_1">
+         <property name="text">
+          <string>Jog Y -</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="jog_increments_cb"/>
+       </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="jog_minus_pb_0">
          <property name="text">
@@ -435,8 +445,108 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="jog_increments_cb"/>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="jog_plus_pb_1">
+         <property name="text">
+          <string>Jog Y +</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="jog_plus_pb_2">
+         <property name="text">
+          <string>Jog Z +</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="jog_minus_pb_2">
+         <property name="text">
+          <string>Jog Z -</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>160</y>
+        <width>301</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Jog Velocity</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Max</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLabel" name="max_jog_vel_lb">
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSlider" name="jog_vel_s">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::TicksBelow</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="min_jog_vel_lb">
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Jog Velocity &gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Min</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="jog_vel_lb">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

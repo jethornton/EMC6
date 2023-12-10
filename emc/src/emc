@@ -66,6 +66,7 @@ class emc_gui(QMainWindow):
 
 		self.joints = int(self.inifile.find('KINS', 'JOINTS')) or False
 		connections.connect(self)
+		startup.setup_jog(self)
 		startup.set_labels(self)
 		startup.set_buttons(self)
 		startup.load_combos(self)

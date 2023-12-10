@@ -1,6 +1,6 @@
 from functools import partial
 
-from PyQt6.QtWidgets import QPushButton, QPlainTextEdit, QListWidget
+from PyQt6.QtWidgets import QPushButton, QPlainTextEdit, QListWidget, QSlider
 from PyQt6.QtGui import QAction
 
 from libemc import commands
@@ -69,6 +69,18 @@ def connect(parent):
 	for item in list_widgets_list:
 		if item in list_widgets:
 			getattr(parent, item).itemSelectionChanged.connect(partial(getattr(utilities, list_widgets[item]), parent))
+
+	sliders = {
+	'jog_vel_s': 'jog_slider'}
+
+	slider_list = []
+	for slider in parent.findChildren(QSlider):
+		if slider.objectName():
+			slider_list.append(slider.objectName())
+
+	for item in slider_list:
+		if item in sliders:
+			getattr(parent, item).valueChanged.connect(partial(getattr(utilities, sliders[item]), parent))
 
 
 	# combo boxes

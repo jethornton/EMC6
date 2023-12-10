@@ -170,12 +170,15 @@ def jog(parent):
 	increment = parent.jog_increments_cb.currentData()
 	if 'minus' in jog_command:
 		increment = -increment
+		vel = -parent.jog_vel_s.value()
+	else:
+		vel = parent.jog_vel_s.value()
 	jjogmode = get_jog_mode(parent)
 	if parent.sender().isDown():
 		if jog_type == 'incremental':
-			parent.command.jog(JOG_INCREMENT, jjogmode, joint, 10, increment)
+			parent.command.jog(JOG_INCREMENT, jjogmode, joint, vel, increment)
 		elif jog_type == 'continuous':
-			parent.command.jog(JOG_CONTINUOUS, jjogmode, joint, 10)
+			parent.command.jog(JOG_CONTINUOUS, jjogmode, joint, vel)
 
 	else:
 		parent.command.jog(JOG_STOP, jjogmode, joint)

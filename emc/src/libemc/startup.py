@@ -1,6 +1,7 @@
 from functools import partial
 
 from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit, QListWidget
+from PyQt6.QtWidgets import QSlider
 from PyQt6.QtGui import QTextCursor
 
 import linuxcnc
@@ -8,10 +9,33 @@ import linuxcnc
 from libemc import commands
 from libemc import editor
 
+def setup_jog(parent):
+	if parent.findChild(QSlider, 'jog_vel_s'):
+		parent.status.poll()
+		jog_min = int(float(parent.inifile.find('DISPLAY', 'MIN_LINEAR_VELOCITY')) * 10) or False
+		print(f'min: {jog_min}')
+		if not jog_min:
+			jog_min = 0
+		jog_default = int(float(parent.inifile.find('DISPLAY', 'DEFAULT_LINEAR_VELOCITY')) * 10) or False
+		jog_max = int(float(parent.inifile.find('DISPLAY', 'MAX_LINEAR_VELOCITY')) * 10) or False
+		parent.jog_vel_s.setMinimum(jog_min)
+		if jog_max:
+			parent.jog_vel_s.setMaximum(jog_max)
+		if jog_default:
+			parent.jog_vel_s.setValue(jog_default)
+
+		if parent.findChild(QLabel, 'min_jog_vel_lb'):
+			parent.min_jog_vel_lb.setText(f'{parent.jog_vel_s.minimum()}')
+		if parent.findChild(QLabel, 'max_jog_vel_lb'):
+			parent.max_jog_vel_lb.setText(f'{parent.jog_vel_s.maximum() / 10:.2f}')
+
+
 def set_labels(parent):
 	label_list = ['status_lb', 'file_lb',
 	'dro_lb_x', 'dro_lb_y', 'dro_lb_z',
-	'motion_line_lb', 'start_line_lb']
+	'motion_line_lb', 'start_line_lb',
+	'min_jog_vel_lb', 'max_jog_vel_lb',
+	'jog_vel_lb']
 	children = parent.findChildren(QLabel)
 	found_label_list = []
 	for child in children:
