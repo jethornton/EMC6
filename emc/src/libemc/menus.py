@@ -13,7 +13,7 @@ def file_open(parent):
 		gcode_dir = os.path.expanduser('~/')
 	fileName = QFileDialog.getOpenFileName(None,
 	caption="Select Configuration INI File", directory=gcode_dir,
-	filter='*.ngc *.NGC', options=QFileDialog.DontUseNativeDialog,)
+	filter='G code Files (*.ngc *.NGC);;All Files (*)', options=QFileDialog.DontUseNativeDialog,)
 	gcode_file = fileName[0]
 	if gcode_file:
 		parent.command.program_open(gcode_file)
