@@ -13,7 +13,7 @@ def setup_jog(parent):
 	if parent.findChild(QSlider, 'jog_vel_s'):
 		parent.status.poll()
 		jog_min = int(float(parent.inifile.find('DISPLAY', 'MIN_LINEAR_VELOCITY')) * 10) or False
-		print(f'min: {jog_min}')
+		#print(f'min: {jog_min}')
 		if not jog_min:
 			jog_min = 0
 		jog_default = int(float(parent.inifile.find('DISPLAY', 'DEFAULT_LINEAR_VELOCITY')) * 10) or False
@@ -72,10 +72,12 @@ def set_buttons(parent):
 		commands.estop_toggle(parent)
 
 def get_list_widgets(parent):
-	if parent.findChild(QListWidget, 'mdi_history_lw').objectName():
+	if parent.findChild(QListWidget, 'mdi_history_lw') is not None:
 		parent.mdi_history_lw_exists = True
+		print('found mdi')
 	else:
 		parent.mdi_history_lw_exists = False
+		print('no found mdi')
 
 def get_pte(parent):
 	if parent.findChild(QPlainTextEdit, 'gcode_pte'):
@@ -105,4 +107,7 @@ def print_constants(parent):
 	print(f'JOG_STOP = {parent.emc.JOG_STOP}')
 	print(f'JOG_CONTINUOUS = {parent.emc.JOG_CONTINUOUS}')
 	print(f'JOG_INCREMENT = {parent.emc.JOG_INCREMENT}')
+	print(f'RCS_DONE = {parent.emc.RCS_DONE}')
+	print(f'RCS_EXEC = {parent.emc. RCS_EXEC}')
+	print(f'RCS_ERROR = {parent.emc.RCS_ERROR}')
 

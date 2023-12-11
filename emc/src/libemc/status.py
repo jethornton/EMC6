@@ -12,6 +12,12 @@ def update(parent):
 	if parent.dro_lb_z_exists:
 		parent.dro_lb_z.setText(f'{parent.status.position[2]:.4f}')
 
+	state_mode = {1: 'DONE', 2: 'EXEC', 3: 'ERROR'}
+	parent.state_lb.setText(f'{state_mode[parent.status.state]}')
+	if parent.status.state == parent.emc.RCS_EXEC:
+		parent.actionReload.setEnabled(False)
+	else:
+		parent.actionReload.setEnabled(True)
 
 	if parent.motion_line_lb_exists:
 		parent.motion_line_lb.setText(f'{parent.status.motion_line}')

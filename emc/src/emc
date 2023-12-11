@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os
+import sys, os, subprocess
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6 import uic
@@ -36,8 +36,8 @@ class emc_gui(QMainWindow):
 		with open(stylesheet,'r') as fh:
 			self.setStyleSheet(fh.read())
 		'''
-		print(os.path.split(sys.argv[0])[0])
-		print(os.path.dirname(os.path.realpath(sys.argv[0])))
+		#print(os.path.split(sys.argv[0])[0]) local just returns .
+		#print(os.path.dirname(os.path.realpath(sys.argv[0]))) this returns the path for both local and installed
 
 		# get the path to the executable
 		self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
@@ -50,12 +50,15 @@ class emc_gui(QMainWindow):
 			self.lib_path = os.path.join(self.path, 'libemc')
 			self.gui_path = self.path
 
-		print(f'Program Path: {self.path}')
-		print(f'Library Path: {self.lib_path}')
-		print(f'GUI Path: {self.gui_path}')
+		#print(f'Program Path: {self.path}')
+		#print(f'Library Path: {self.lib_path}')
+		#print(f'GUI Path: {self.gui_path}')
 
 
 		# connect to linuxcnc
+		if not self.check_emc():
+			print('emc not running')
+			sys.exit()
 		self.emc = linuxcnc
 		self.status = linuxcnc.stat()
 		self.status.poll()
@@ -98,12 +101,20 @@ class emc_gui(QMainWindow):
 		startup.load_combos(self)
 		startup.get_list_widgets(self)
 		startup.get_pte(self)
+		#startup.print_constants(self)
 
 		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()
 		self.timer.timeout.connect(self.update_status)
 		self.timer.start(10) # milliseconds
 		self.show()
+
+	def check_emc(self):
+		if "0x48414c32" in subprocess.getoutput('ipcs'):
+			return True
+		else:
+			return False
+
 
 	def update_status(self):
 		self.status.poll()
