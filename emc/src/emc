@@ -62,6 +62,10 @@ class emc_gui(QMainWindow):
 		self.emc = linuxcnc
 		self.status = linuxcnc.stat()
 		self.status.poll()
+
+		#print(self.status.gcodes[1:])
+		#print(self.status.mcodes[1:])
+
 		self.command = linuxcnc.command()
 		self.error = linuxcnc.error_channel()
 		self.in_error = False
@@ -81,7 +85,7 @@ class emc_gui(QMainWindow):
 				gui_path = os.path.join(self.gui_path, 'emc.ui')
 		else:
 			gui_path = os.path.join(self.gui_path, 'emc.ui')
-		
+
 		uic.loadUi(gui_path, self)
 
 		# find and load the stylesheet
@@ -103,7 +107,7 @@ class emc_gui(QMainWindow):
 		startup.get_list_widgets(self)
 		startup.get_pte(self)
 		#startup.print_constants(self)
-		#startup.test(self)
+		startup.test(self)
 
 		# setup and start the status update timer every 0.1 second
 		self.timer = QTimer()

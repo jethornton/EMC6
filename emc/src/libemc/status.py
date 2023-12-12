@@ -19,6 +19,19 @@ def update(parent):
 	else:
 		parent.actionReload.setEnabled(True)
 
+	if parent.g_codes_lb_exists:
+		active_codes = []
+		for i in parent.status.gcodes[1:]:
+			if i == -1: continue
+			if i % 10 == 0:
+				active_codes.append(f'G{(i/10):.0f}')
+			else:
+				active_codes.append(f'G{(i/10):.0f}.{i%10}')
+		for i in parent.status.mcodes[1:]:
+			if i == -1: continue
+			active_codes.append(f'M{i}')
+		parent.g_codes_lb.setText(f'{" ".join(active_codes)}')
+
 	# handle errors
 	if parent.status.state == parent.emc.RCS_ERROR:
 		error = parent.error.poll()

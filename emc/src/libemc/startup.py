@@ -35,7 +35,7 @@ def set_labels(parent):
 	'dro_lb_x', 'dro_lb_y', 'dro_lb_z',
 	'motion_line_lb', 'start_line_lb',
 	'min_jog_vel_lb', 'max_jog_vel_lb',
-	'jog_vel_lb']
+	'jog_vel_lb', 'g_codes_lb']
 	children = parent.findChildren(QLabel)
 	found_label_list = []
 	for child in children:
@@ -110,6 +110,8 @@ def print_constants(parent):
 	print(f'RCS_ERROR = {parent.emc.RCS_ERROR}')
 
 def test(parent):
+	pass
+	'''
 	tabname = 'status_tab'
 	#print(parent.tabWidget.findChild(QWidget, 'status_tab'))
 	page = parent.tabWidget.findChild(QWidget, tabname)
@@ -119,4 +121,5 @@ def test(parent):
 	parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, tabname))
 	#print(page)
 	#parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, 'Status'))
+	'''
 
