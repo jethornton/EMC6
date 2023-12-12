@@ -289,7 +289,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="gcode_tab">
      <attribute name="title">
       <string>G code</string>
      </attribute>
@@ -305,7 +305,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="homing_tab">
      <attribute name="title">
       <string>Homing</string>
      </attribute>
@@ -398,7 +398,7 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="manual_tab">
      <attribute name="title">
       <string>Manual</string>
      </attribute>
@@ -551,7 +551,7 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_4">
+    <widget class="QWidget" name="mdi_tab">
      <attribute name="title">
       <string>MDI</string>
      </attribute>
@@ -590,6 +590,29 @@
         <height>192</height>
        </rect>
       </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="status_tab">
+     <attribute name="title">
+      <string>Status</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>381</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Errors</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPlainTextEdit" name="errors_pte"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>

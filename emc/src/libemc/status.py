@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QTextCursor, QTextBlockFormat, QColor
-from PyQt6.QtWidgets import QTextEdit
+from PyQt6.QtWidgets import QTextEdit, QWidget
 
 def update(parent):
 	task_mode = {1: 'MANUAL', 2: 'AUTO', 3: 'MDI'}
@@ -18,6 +18,36 @@ def update(parent):
 		parent.actionReload.setEnabled(False)
 	else:
 		parent.actionReload.setEnabled(True)
+
+	# handle errors
+	if parent.status.state == parent.emc.RCS_ERROR:
+		error = parent.error.poll()
+		if error:
+			kind, text = error
+			if kind in (parent.emc.NML_ERROR, parent.emc.OPERATOR_ERROR):
+				error_type = 'Error'
+			else:
+				error_type = 'Info'
+			parent.errors_pte.setPlainText(error_type)
+			parent.errors_pte.appendPlainText(text)
+			#tabname = 'status_tab'
+			#print(parent.tabWidget.findChild(QWidget, 'status_tab'))
+			#page = parent.tabWidget.findChild(QWidget, tabname)
+			#print(page)
+			#index = parent.tabWidget.indexOf(page)
+			#print(index)
+			parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, 'status_tab'))
+
+
+	'''
+		if not parent.in_error:
+			parent.in_error = True
+			print(error)
+		else:
+			parent.in_error = False
+			print('no')
+
+	'''
 
 	if parent.motion_line_lb_exists:
 		parent.motion_line_lb.setText(f'{parent.status.motion_line}')

@@ -1,7 +1,7 @@
 from functools import partial
 
 from PyQt6.QtWidgets import QLabel, QComboBox, QPlainTextEdit, QListWidget
-from PyQt6.QtWidgets import QSlider
+from PyQt6.QtWidgets import QSlider, QWidget
 from PyQt6.QtGui import QTextCursor
 
 import linuxcnc
@@ -74,10 +74,8 @@ def set_buttons(parent):
 def get_list_widgets(parent):
 	if parent.findChild(QListWidget, 'mdi_history_lw') is not None:
 		parent.mdi_history_lw_exists = True
-		print('found mdi')
 	else:
 		parent.mdi_history_lw_exists = False
-		print('no found mdi')
 
 def get_pte(parent):
 	if parent.findChild(QPlainTextEdit, 'gcode_pte'):
@@ -110,4 +108,15 @@ def print_constants(parent):
 	print(f'RCS_DONE = {parent.emc.RCS_DONE}')
 	print(f'RCS_EXEC = {parent.emc. RCS_EXEC}')
 	print(f'RCS_ERROR = {parent.emc.RCS_ERROR}')
+
+def test(parent):
+	tabname = 'status_tab'
+	#print(parent.tabWidget.findChild(QWidget, 'status_tab'))
+	page = parent.tabWidget.findChild(QWidget, tabname)
+	print(page)
+	index = parent.tabWidget.indexOf(page)
+	print(index)
+	parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, tabname))
+	#print(page)
+	#parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, 'Status'))
 
