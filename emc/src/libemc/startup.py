@@ -48,16 +48,13 @@ def set_labels(parent):
 			setattr(parent, f'{label}_exists', False)
 
 def load_combos(parent):
-	combo_list = ['jog_modes_cb', 'jog_increments_cb']
+	combo_list = ['jog_modes_cb']
 	children = parent.findChildren(QComboBox)
 	found_combo_list = []
 	for child in children:
 		found_combo_list.append(child.objectName())
 	if 'jog_modes_cb' in found_combo_list:
-		parent.jog_modes_cb.addItem('Incremental', 'incremental')
-		parent.jog_modes_cb.addItem('Continuous', 'continuous')
-
-	if 'jog_increments_cb' in found_combo_list:
+		parent.jog_modes_cb.addItem('Continuous', False)
 		increments = parent.inifile.find('DISPLAY', 'INCREMENTS') or False
 		if increments:
 			for item in increments.split():
@@ -65,7 +62,7 @@ def load_combos(parent):
 				for char in item:
 					if char.isdigit() or char == '.':
 						data += char
-				parent.jog_increments_cb.addItem(item, float(data))
+				parent.jog_modes_cb.addItem(item, float(data))
 
 def set_buttons(parent):
 	if parent.status.task_state == linuxcnc.STATE_ESTOP_RESET:

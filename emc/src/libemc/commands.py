@@ -166,18 +166,17 @@ def get_jog_mode(parent):
 def jog(parent):
 	jog_command = parent.sender().objectName().split('_')
 	joint = int(jog_command[-1])
-	jog_type = parent.jog_modes_cb.currentData()
-	increment = parent.jog_increments_cb.currentData()
+	increment = parent.jog_modes_cb.currentData()
 	if 'minus' in jog_command:
-		increment = -increment
+		#increment = -increment
 		vel = -parent.jog_vel_s.value()
 	else:
 		vel = parent.jog_vel_s.value()
 	jjogmode = get_jog_mode(parent)
 	if parent.sender().isDown():
-		if jog_type == 'incremental':
+		if increment:
 			parent.command.jog(JOG_INCREMENT, jjogmode, joint, vel, increment)
-		elif jog_type == 'continuous':
+		else:
 			parent.command.jog(JOG_CONTINUOUS, jjogmode, joint, vel)
 
 	else:

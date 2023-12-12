@@ -425,18 +425,12 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QComboBox" name="jog_modes_cb"/>
-       </item>
        <item row="2" column="1">
         <widget class="QPushButton" name="jog_minus_pb_1">
          <property name="text">
           <string>Jog Y -</string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="jog_increments_cb"/>
        </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="jog_minus_pb_0">
@@ -463,6 +457,19 @@
         <widget class="QPushButton" name="jog_minus_pb_2">
          <property name="text">
           <string>Jog Z -</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="jog_modes_cb"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Jog Mode</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
