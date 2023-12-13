@@ -50,7 +50,8 @@ def connect(parent):
 			getattr(parent, pb).released.connect(partial(getattr(commands, jog_buttons[pb]), parent))
 
 	# Menu Items
-	menu_actions = {'actionOpen': 'file_open', 'actionReload': 'file_reload'}
+	menu_actions = {'actionOpen': 'file_open', 'actionReload': 'file_reload',
+	'actionClear_MDI' : 'clear_mdi'}
 	action_list = []
 	for action in parent.findChildren(QAction):
 		if action.objectName():

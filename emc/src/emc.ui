@@ -678,7 +678,14 @@
     <addaction name="actionOpen"/>
     <addaction name="actionReload"/>
    </widget>
+   <widget class="QMenu" name="menuMachine">
+    <property name="title">
+     <string>Machine</string>
+    </property>
+    <addaction name="actionClear_MDI"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuMachine"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -702,6 +709,11 @@
   <action name="actionReload">
    <property name="text">
     <string>Reload</string>
+   </property>
+  </action>
+  <action name="actionClear_MDI">
+   <property name="text">
+    <string>Clear MDI</string>
    </property>
   </action>
  </widget>

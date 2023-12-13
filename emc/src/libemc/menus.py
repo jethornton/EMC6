@@ -34,4 +34,12 @@ def file_reload(parent):
 		parent.start_line_lb.setText('')
 	editor.clear_highlight(parent)
 
+def clear_mdi(parent):
+	parent.mdi_history_lw.clear()
+	path = os.path.dirname(parent.status.ini_filename)
+	mdi_file = os.path.join(path, 'mdi_history.txt')
+	with open(mdi_file, 'w') as f:
+		f.write('')
+
+
 

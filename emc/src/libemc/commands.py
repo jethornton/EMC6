@@ -1,3 +1,4 @@
+import os
 
 import linuxcnc
 #command = linuxcnc.command()
@@ -190,10 +191,21 @@ def run_mdi(parent):
 				parent.command.mode(linuxcnc.MODE_MDI)
 			parent.pause_pb.setEnabled(True)
 			parent.command.mdi(mdi_command)
-			# add mdi to list
-			if parent.mdi_history_lw_exists:
-				parent.mdi_history_lw.addItem(mdi_command)
-			parent.mdi_command_le.setText('')
+			parent.command.wait_complete()
+			parent.status.poll()
+			if parent.status.state != parent.emc.RCS_ERROR:
+				# add mdi to list
+				if parent.mdi_history_lw_exists:
+					parent.mdi_history_lw.addItem(mdi_command)
+				parent.mdi_command_le.setText('')
+				if parent.mdi_history_lw_exists:
+					path = os.path.dirname(parent.status.ini_filename)
+					mdi_file = os.path.join(path, 'mdi_history.txt')
+					mdi_codes = []
+					for index in range(parent.mdi_history_lw.count()):
+						mdi_codes.append(parent.mdi_history_lw.item(index).text())
+					with open(mdi_file, 'w') as f:
+						f.write('\n'.join(mdi_codes))
 	else:
 		print('no mdi')
 
