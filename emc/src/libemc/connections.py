@@ -90,6 +90,7 @@ def connect(parent):
 
 	# plain text edits
 	# ptes = {'gcode_pte': 'gcode_viewer'}
+	#if isinstance(parent.findChild(QPlainTextEdit, 'gcode_pte'), QPlainTextEdit):
 	#if parent.findChild(QPlainTextEdit, 'gcode_pte'):
 	#./	parent.gcode_pte.cursorPositionChanged.connect(partial(editor.highlight_line, parent))
 

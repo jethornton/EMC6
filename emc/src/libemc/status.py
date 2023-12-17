@@ -20,17 +20,24 @@ def update(parent):
 		parent.actionReload.setEnabled(True)
 
 	if parent.g_codes_lb_exists:
-		active_codes = []
+		g_codes = []
 		for i in parent.status.gcodes[1:]:
 			if i == -1: continue
 			if i % 10 == 0:
-				active_codes.append(f'G{(i/10):.0f}')
+				g_codes.append(f'G{(i/10):.0f}')
 			else:
-				active_codes.append(f'G{(i/10):.0f}.{i%10}')
+				g_codes.append(f'G{(i/10):.0f}.{i%10}')
+		parent.g_codes_lb.setText(f'{" ".join(g_codes)}')
+
+	if parent.m_codes_lb_exists:
+		m_codes = []
 		for i in parent.status.mcodes[1:]:
 			if i == -1: continue
-			active_codes.append(f'M{i}')
-		parent.g_codes_lb.setText(f'{" ".join(active_codes)}')
+			m_codes.append(f'M{i}')
+		parent.m_codes_lb.setText(f'{" ".join(m_codes)}')
+
+	if parent.g5x_offsets_lb_exists:
+		pass
 
 	# handle errors
 	if parent.status.state == parent.emc.RCS_ERROR:
@@ -49,7 +56,8 @@ def update(parent):
 			#print(page)
 			#index = parent.tabWidget.indexOf(page)
 			#print(index)
-			parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, 'status_tab'))
+			if isinstance(parent.tabWidget.findChild(QWidget, 'status_tab'), QWidget):
+				parent.tabWidget.setCurrentWidget(parent.tabWidget.findChild(QWidget, 'status_tab'))
 
 
 	'''

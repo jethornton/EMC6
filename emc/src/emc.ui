@@ -626,15 +626,15 @@
        <rect>
         <x>400</x>
         <y>20</y>
-        <width>351</width>
-        <height>181</height>
+        <width>341</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="title">
-       <string>Status</string>
+       <string>Current Active Codes</string>
       </property>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
         <widget class="QLabel" name="g_codes_lb">
          <property name="text">
           <string>TextLabel</string>
@@ -644,7 +644,27 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="m_codes_lb">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
       </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>160</y>
+        <width>120</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Current Offsets</string>
+      </property>
      </widget>
     </widget>
    </widget>

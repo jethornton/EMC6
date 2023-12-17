@@ -37,7 +37,8 @@ def set_labels(parent):
 	'dro_lb_x', 'dro_lb_y', 'dro_lb_z',
 	'motion_line_lb', 'start_line_lb',
 	'min_jog_vel_lb', 'max_jog_vel_lb',
-	'jog_vel_lb', 'g_codes_lb']
+	'jog_vel_lb', 'g_codes_lb', 'm_codes_lb',
+	'g5x_offsets_lb', 'g92_offsets_lb']
 	children = parent.findChildren(QLabel)
 	found_label_list = []
 	for child in children:
@@ -119,7 +120,15 @@ def print_constants(parent):
 	print(f'RCS_ERROR = {parent.emc.RCS_ERROR}')
 
 def test(parent):
-	pass
+	parent.status.poll()
+	#print(int.bit_count(parent.status.axis_mask))
+	#print(parent.status.joints)
+	#print(parent.status.spindles)
+	#for i in range(parent.status.axes):
+	#	print(parent.status.g5x_offset[i])
+	#print(parent.status.g5x_offset)
+	#print(parent.status.g5x_index)
+	#pass
 	
 	'''
 	tabname = 'status_tab'
